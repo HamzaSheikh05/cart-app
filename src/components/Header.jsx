@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsMoonStarsFill } from "react-icons/bs";
 
 export const Header = () => {
+  const [darkMode, setDarkMode] = useState(
+    JSON.parse(localStorage.getItem("darkMode")) || false
+  );
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
+
+  console.log(darkMode);
   return (
     <header>
-      <nav className="flex items-center justify-between bg-black p-6">
+      <nav className="flex items-center justify-between dark:bg-black p-6">
         <h1 className="text-2xl font-burtons text-blue-300 font-semibold">
           DevelopedByHS
         </h1>
@@ -18,7 +33,10 @@ export const Header = () => {
           </li>
         </ul>
 
-        <BsMoonStarsFill className="text-2xl text-blue-300 hover:text-yellow-200" />
+        <BsMoonStarsFill
+          onClick={() => setDarkMode(!darkMode)}
+          className="text-2xl text-blue-300 hover:text-yellow-200"
+        />
       </nav>
     </header>
   );
